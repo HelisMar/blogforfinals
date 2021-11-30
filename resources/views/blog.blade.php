@@ -4,7 +4,7 @@
 
 @foreach ($blogs as $blog )
 
-Siin peaks paistma blogi postitused ükshaaval
+Siin peaks paistma blogi postitused ükshaaval. Kuidas ma saan onepost tööle?
 
 @endforeach
 

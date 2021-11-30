@@ -12,6 +12,4 @@ class Blog extends Model
 
 
 
-
-
 //esindab ühte rida andmebaasis
