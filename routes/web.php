@@ -17,20 +17,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BlogController::class, 'home']);
 
-Route::get('/admin', function () {
-    return view('admin');
-});
 
 Route::get('/blogs', [BlogController::class, 'index']);
 
-Route::get('/blog', function() {
-    return view('blog');
-});
 
-// Route::get('/blog', [BlogController::onepost(), 'blogs']);
-
-
-
-
+Route::get('/blog/{blog}', [\App\Http\Controllers\BlogController::class, 'show']);
+Route::get('/blog/{blog}', [\App\Http\Controllers\BlogController::class, 'show2']);
+Route::get('/edit/{blog}', [\App\Http\Controllers\BlogController::class, 'edit']);
+Route::put('/edit/{blog}', [\App\Http\Controllers\BlogController::class, 'update']);
+Route::get('/admin', [\App\Http\Controllers\BlogController::class, 'create']);
+Route::post('/admin', [\App\Http\Controllers\BlogController::class, 'store']);
 
 

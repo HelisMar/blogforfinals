@@ -17,8 +17,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::all();
-        return view('blogs', compact('blogs'));
+        $blogs = Blog::all();                            //fetch all blog posts from DB
+        return view('blogs', compact('blogs'));         //returns the fetched
 
     }
     public function home() {
@@ -27,15 +27,20 @@ class BlogController extends Controller
         return view('index', compact ('blogs'));
 
     }
-    public function onepost()
-    {
 
-        $blog = Blog::onepost();
-        return view('blog', compact ('blog'));
-}
+    public function blog() {
+
+        $blogs = Blog::all();
+        return view('blogs', compact ('blogs'));
+    }
 
 
-
+    // public function index2()
+    // {
+    //     $blogs = Blog::all();
+    //     return view('admin', ['blogs' => $blogs,
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource. Eesmärk näidata vormi millega uut blogipostitust luua
@@ -44,7 +49,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-
+        return view ('new');
     }
 
     /**
@@ -56,9 +61,13 @@ class BlogController extends Controller
     public function store(StoreBlogRequest $request)
 
     {
-        $blog = new blog;
-        $blog->name = $request-> name;
-        $blog->save();
+       $newBlog = Blog::create([
+           'title'=> $request->title,
+           'body' => $request->body,
+
+       ]);
+
+       return redirect('blog/'. $newBlog->id);
 
     }
 
@@ -70,8 +79,14 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        return view('user.profile',[
-            'user'=> Blog::findOrFail($blog) //tahaks panna siia blogi postituse ID'd... ja ühendada useriga?!
+        return view('show', [
+            'blog' => $blog,
+        ]);
+    }
+    public function show2(Blog $blog)
+    {
+        return view('show2', [
+            'blog' => $blog
         ]);
     }
 
@@ -83,10 +98,10 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        $blog = blog::find('blog');
-        return view('blog', compact ('blog'));
-        $blog-> edit($blog);
-        $blog ->save();
+        return view('edit', [
+            'blog' => $blog,
+        ]);
+
     }
 
     /**
@@ -98,7 +113,11 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        //
+        $blog->update([
+            'title' => $request->title,
+            'body' => $request-> body
+        ]);
+        return redirect('admin/'. $blog->id);
     }
 
     /**
@@ -109,7 +128,7 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        $blog= blog::find();
-        $blog->destroy();
+        $blog-> delete();
+        return redirect('/admin');
     }
 }
